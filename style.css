@@ -1,24 +1,48 @@
-header {
-  margin: 20;
-  margin-top: 20;
-  margin-left: 20;
-  margin-right: 20;
-  margin-bottom: 20;
-  height: 300;
-  width: 400;
+header {}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.left {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.right {
+  flex: 1;
+  padding: 20px;
+}
+
+.right p {
+  margin-bottom: 15px;
 }
 
 body {
-  background-color: #282D40;
+  background-color: #222222;
   color: #FFFFFF;
   line-height: 1.4;
 }
 
 footer {
-  background-color: #D1D1D1;
   align-content: center;
 }
 
 table {
   border: 1px #FFFFFF;
+}
+
+#pic-paragraph {
+  width: 726px;
+  height: 1200px;
+  font-size: 10px;
+  line-height: 10px;
+  background: url(images/cal2.jpeg);
+  background-attachment: scroll;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0);
+  text-align: left;
 }
