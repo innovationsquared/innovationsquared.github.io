@@ -16,7 +16,8 @@ header {
 }
 
 .right {
-  padding: 20px;
+  padding: 1vw;
+  padding-left: 5vw;
 }
 
 .right p {
