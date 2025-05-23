@@ -18,7 +18,7 @@ document.getElementById("typewriter").innerHTML += txt.charAt(i);
 function flashCursor() {
   var text = document.getElementById("typewriter");
   if (!cursorVisible) {
-    text.innerHTML += "&#x258A";
+    text.innerHTML += "&#x258C";
     cursorVisible = true;
     setTimeout(type, speed);
   } else {
