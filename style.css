@@ -1,4 +1,7 @@
-header {}
+header {
+  text-align: center;
+  padding: 5px;
+}
 
 .container {
   display: flex;
@@ -10,6 +13,8 @@ header {}
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  padding-left: 5vw;
+  padding-top: 100px;
 }
 
 .right {
@@ -28,7 +33,7 @@ body {
 }
 
 footer {
-  align-content: center;
+  text-align: center;
 }
 
 table {
