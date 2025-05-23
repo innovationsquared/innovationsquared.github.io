@@ -9,16 +9,13 @@ header {
 }
 
 .left {
-  flex: 1;
-  display: flex;
   align-items: center;
-  justify-content: flex-start;
-  padding-left: 5vw;
-  padding-top: 100px;
+  justify-content: left;
+  padding-left: 1vw;
+  padding-top: 1vw;
 }
 
 .right {
-  flex: 1;
   padding: 20px;
 }
 
