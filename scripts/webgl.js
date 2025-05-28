@@ -10,13 +10,18 @@ if (!gl) {
 //vertex shader
 const vShader =  `
 attribute vec2 aVertexPosition;
+attribute vec3 color;
+varying vec3 vColor;
 void main() {
    gl_Position = vec4(aVertexPosition, 0.0, 1.0);
+   vColor = color;
 }`;
 
 const fShader = `
+precision mediump float;
+varying vec3 vColor;
 void main() {
-    gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+    gl_FragColor = vec4(vColor, 1.0);
 }`;
 
 var compileShader = function(source, type, typeString) {
@@ -38,14 +43,19 @@ gl.attachShader(SHADER_PROGRAM, shader_fragment);
 
 gl.linkProgram(SHADER_PROGRAM);
 
+var _color = gl.getAttribLocation(SHADER_PROGRAM, "color");
 var _position = gl.getAttribLocation(SHADER_PROGRAM, "aVertexPosition");
+gl.enableVertexAttribArray(_color);
 gl.enableVertexAttribArray(_position);
 gl.useProgram(SHADER_PROGRAM);
 
 var triangle_vertex = [
     -1, -1,
+    1, 0, 0,
     1, -1, 
-    1, 1
+    0, 1, 0,
+    1, 1, 
+    0, 0, 1
 ];
 
 var TRIANGLE_VERTEX = gl.createBuffer();
@@ -65,6 +75,7 @@ var animate = function() {
 gl.clear(gl.COLOR_BUFFER_BIT);
 gl.bindBuffer(gl.ARRAY_BUFFER, TRIANGLE_VERTEX);
 gl.vertexAttribPointer(_position, 2, gl.FLOAT, false, 4*2, 0);
+gl.vertexAttribPointer(_color, 3, gl.FLOAT, false, 4*(2+3), 2*4);
 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, TRIANGLE_FACES);
 gl.drawElements(gl.TRIANGLES, 3, gl.UNSIGNED_SHORT, 0);
 gl.flush();
