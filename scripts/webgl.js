@@ -55,24 +55,52 @@ gl.enableVertexAttribArray(_color);
 gl.enableVertexAttribArray(_position);
 gl.useProgram(SHADER_PROGRAM);
 
-var triangle_vertex = [
-    -1, -1, 0,
+var cube_vertex = [
+    -1, -1, -1,
+    0, 0, 0,
+    1, -1, -1,
     1, 0, 0,
-    1, -1, 0,
+    1 ,1, -1, 
+    1, 1, 0, 
+    -1, 1, -1,
     0, 1, 0,
-    1, 1, 0,
-    0, 0, 1
+    -1, -1, 1,
+    0, 0, 1,
+    1, -1, 1,
+    1, 0, 1,
+    1, 1, 1, 
+    1, 1, 1,
+    -1, 1, 1,
+    0, 1, 1
 ];
 
-var TRIANGLE_VERTEX = gl.createBuffer();
-gl.bindBuffer(gl.ARRAY_BUFFER, TRIANGLE_VERTEX);
-gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(triangle_vertex), gl.STATIC_DRAW);
+var CUBE_VERTEX = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, CUBE_VERTEX);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(cube_vertex), gl.STATIC_DRAW);
 
-var triangle_faces = [0, 1, 2];
-var TRIANGLE_FACES = gl.createBuffer();
-gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, TRIANGLE_FACES);
+var cube_faces = [
+    0, 1, 2,
+    0, 2, 3,
+
+    4, 5, 6, 
+    4, 6, 7, 
+
+    0, 3, 7, 
+    0, 4, 7, 
+
+    1, 2, 6, 
+    1, 5, 6, 
+
+    2, 3, 6, 
+    3, 7, 6, 
+
+    0, 1, 5, 
+    0, 4, 5
+];
+var CUBE_FACES = gl.createBuffer();
+gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, CUBE_FACES);
 gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, 
-    new Uint16Array(triangle_faces), gl.STATIC_DRAW);
+    new Uint16Array(cube_faces), gl.STATIC_DRAW);
 
 var PROJMATRIX = LIBS.get_projection(40, window.innerWidth/window.innerHeight, 1, 100);
 var MOVEMATRIX = LIBS.get_I4();
@@ -87,20 +115,20 @@ var time_prev = 0;
 var animate = function(time) {
     var dTime = time-time_prev;
 
-    LIBS.rotateZ(MOVEMATRIX, dTime * 0.005);
-    LIBS.rotateY(MOVEMATRIX, dTime * 0.004);
-    LIBS.rotateX(MOVEMATRIX, dTime * 0.003);
+    LIBS.rotateZ(MOVEMATRIX, dTime * 0.004);
+    LIBS.rotateY(MOVEMATRIX, dTime * 0.003);
+    LIBS.rotateX(MOVEMATRIX, dTime * 0.002);
     time_prev = time;
 
 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 gl.uniformMatrix4fv(_Pmatrix, false, PROJMATRIX);
 gl.uniformMatrix4fv(_Mmatrix, false, MOVEMATRIX);
 gl.uniformMatrix4fv(_Vmatrix, false, VIEWMATRIX);
-gl.bindBuffer(gl.ARRAY_BUFFER, TRIANGLE_VERTEX);
+gl.bindBuffer(gl.ARRAY_BUFFER, CUBE_VERTEX);
 gl.vertexAttribPointer(_position, 3, gl.FLOAT, false, 4*(3+3), 0);
 gl.vertexAttribPointer(_color, 3, gl.FLOAT, false, 4*(3+3), 3*4);
-gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, TRIANGLE_FACES);
-gl.drawElements(gl.TRIANGLES, 3, gl.UNSIGNED_SHORT, 0);
+gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, CUBE_FACES);
+gl.drawElements(gl.TRIANGLES, 6 * 2 * 3, gl.UNSIGNED_SHORT, 0);
 gl.flush();
 window.requestAnimationFrame(animate);
 };
