@@ -1,6 +1,6 @@
 function main() {
     const canvas = document.getElementById("webGLCanvas");
-const gl = canvas.getContext("webgl");
+const gl = canvas.getContext("webgl", {antialias: true});
 
 if (!gl) {
     alert("WebGL not enabled!");
@@ -9,11 +9,14 @@ if (!gl) {
 
 //vertex shader
 const vShader =  `
-attribute vec2 aVertexPosition;
+attribute vec3 aVertexPosition;
+uniform mat4 ProjectionMatrix;
+uniform mat4 ViewMatrix;
+uniform mat4 MovementMatrix;
 attribute vec3 color;
 varying vec3 vColor;
 void main() {
-   gl_Position = vec4(aVertexPosition, 0.0, 1.0);
+   gl_Position = ProjectionMatrix * ViewMatrix * MovementMatrix * vec4(aVertexPosition, 1.0);
    vColor = color;
 }`;
 
@@ -43,6 +46,9 @@ gl.attachShader(SHADER_PROGRAM, shader_fragment);
 
 gl.linkProgram(SHADER_PROGRAM);
 
+var _Pmatrix = gl.getUniformLocation(SHADER_PROGRAM, "ProjectionMatrix");
+var _Mmatrix = gl.getUniformLocation(SHADER_PROGRAM, "MovementMatrix");
+var _Vmatrix = gl.getUniformLocation(SHADER_PROGRAM, "ViewMatrix");
 var _color = gl.getAttribLocation(SHADER_PROGRAM, "color");
 var _position = gl.getAttribLocation(SHADER_PROGRAM, "aVertexPosition");
 gl.enableVertexAttribArray(_color);
@@ -50,11 +56,11 @@ gl.enableVertexAttribArray(_position);
 gl.useProgram(SHADER_PROGRAM);
 
 var triangle_vertex = [
-    -1, -1,
+    -1, -1, 0,
     1, 0, 0,
-    1, -1, 
+    1, -1, 0,
     0, 1, 0,
-    1, 1, 
+    1, 1, 0,
     0, 0, 1
 ];
 
@@ -68,21 +74,38 @@ gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, TRIANGLE_FACES);
 gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, 
     new Uint16Array(triangle_faces), gl.STATIC_DRAW);
 
-
+var PROJMATRIX = LIBS.get_projection(40, window.innerWidth/window.innerHeight, 1, 100);
+var MOVEMATRIX = LIBS.get_I4();
+var VIEWMATRIX = LIBS.get_I4();
+LIBS.translateZ(VIEWMATRIX, -5);
 gl.clearColor(0, 0, 0, 0);
+gl.enable(gl.DEPTH_TEST);
+gl.depthFunc(gl.LEQUAL);
+gl.clearDepth(1.0);
 
-var animate = function() {
-gl.clear(gl.COLOR_BUFFER_BIT);
+var time_prev = 0;
+var animate = function(time) {
+    var dTime = time-time_prev;
+
+    LIBS.rotateZ(MOVEMATRIX, dTime * 0.005);
+    LIBS.rotateY(MOVEMATRIX, dTime * 0.004);
+    LIBS.rotateX(MOVEMATRIX, dTime * 0.003);
+    time_prev = time;
+
+gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+gl.uniformMatrix4fv(_Pmatrix, false, PROJMATRIX);
+gl.uniformMatrix4fv(_Mmatrix, false, MOVEMATRIX);
+gl.uniformMatrix4fv(_Vmatrix, false, VIEWMATRIX);
 gl.bindBuffer(gl.ARRAY_BUFFER, TRIANGLE_VERTEX);
-gl.vertexAttribPointer(_position, 2, gl.FLOAT, false, 4*2, 0);
-gl.vertexAttribPointer(_color, 3, gl.FLOAT, false, 4*(2+3), 2*4);
+gl.vertexAttribPointer(_position, 3, gl.FLOAT, false, 4*(3+3), 0);
+gl.vertexAttribPointer(_color, 3, gl.FLOAT, false, 4*(3+3), 3*4);
 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, TRIANGLE_FACES);
 gl.drawElements(gl.TRIANGLES, 3, gl.UNSIGNED_SHORT, 0);
 gl.flush();
 window.requestAnimationFrame(animate);
 };
 
-animate();
+animate(0);
 
 }
 
