@@ -1,0 +1,25 @@
+body {
+  background-color: #222222;
+  color: #FFFFFF;
+  line-height: 1.4;
+}
+
+#webGLCanvas {
+border-style: ridge;
+background-color: cornflowerblue;
+}
+
+#mainbody {
+    justify-content: center;
+    text-align: center;
+}
+
+#blogentry {
+    justify-content: left;
+    text-align: left;
+    padding-left: 5vw;
+}
+
+#blogentry p {
+    font-size: 12px;
+}

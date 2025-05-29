@@ -40,6 +40,11 @@ table {
   border: 1px #FFFFFF;
 }
 
+#webGLCanvas {
+border-style: ridge;
+background-color: cornflowerblue;
+}
+
 #pic-paragraph {
   width: 726px;
   height: 1200px;

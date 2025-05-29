@@ -102,7 +102,7 @@ gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, CUBE_FACES);
 gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, 
     new Uint16Array(cube_faces), gl.STATIC_DRAW);
 
-var PROJMATRIX = LIBS.get_projection(40, window.innerWidth/window.innerHeight, 1, 100);
+var PROJMATRIX = LIBS.get_projection(70, window.innerWidth/window.innerHeight, 1, 100);
 var MOVEMATRIX = LIBS.get_I4();
 var VIEWMATRIX = LIBS.get_I4();
 LIBS.translateZ(VIEWMATRIX, -5);
@@ -115,9 +115,9 @@ var time_prev = 0;
 var animate = function(time) {
     var dTime = time-time_prev;
 
-    LIBS.rotateZ(MOVEMATRIX, dTime * 0.004);
-    LIBS.rotateY(MOVEMATRIX, dTime * 0.003);
-    LIBS.rotateX(MOVEMATRIX, dTime * 0.002);
+    LIBS.rotateZ(MOVEMATRIX, dTime * 0.005);
+    LIBS.rotateY(MOVEMATRIX, dTime * 0.004);
+    LIBS.rotateX(MOVEMATRIX, dTime * 0.003);
     time_prev = time;
 
 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
