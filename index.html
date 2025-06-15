@@ -6,7 +6,7 @@
   <title>Calvin Pettis Portfolio</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="imamge/x-icon" href="images/favi.png">
-  <script src="scripts/typewriter.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&display=swap" , rel="stylesheet">
 
 </head>
 
@@ -623,6 +623,8 @@
       <p>
         Java<br>
         C/C++/CMake<br>
+        Program analysis (valgrind, ghidra, gdb, knowledge of X86-64 Assembly)<br>
+        Graphics Programming (OpenGL, WebGL) <br>
         Python<br>
         MySQL<br>
         R<br>
@@ -635,11 +637,11 @@
       <hr>
       <h4>Contact info:</h4>
       <!-- <a href="mailto:pettis_calvin@proton.me">Email</a> -->
-      <button onclick="document.location='https://linkedin.com/in/calvin-pettis-5424632b3'">LinkedIn</button>
+      <button onclick="window.open('https://linkedin.com/in/calvin-pettis-5424632b3', '_blank')">LinkedIn</button>
       <br>
-      <button onclick="document.location='https://github.com/calvinpettis'">GitHub</button>
+      <button onclick="window.open('https://github.com/calvinpettis', '_blank')">GitHub</button>
       <br>
-      <button onclick="document.location='data/resume.pdf'">Resume</button>
+      <button onclick="window.open('data/resume.pdf', '_blank')">Resume</button>
       <h4>Message me :)</h4>
       <form action="https://formspree.io/f/xwpojjyk" method="post">
         <label for="name">Your Name/Company</label>
@@ -654,20 +656,23 @@
         <button type="submit">Submit</button>
       </form>
       <br>
-    <canvas id="webGLCanvas" title="WebGL! Yay!!" width="300" height="300"></canvas>
+      <!-- <canvas id="webGLCanvas" title="WebGL! Yay!!" width="300" height="300"></canvas> -->
+      <p id="position"></p>
     </div>
   </div>
 
 
 
-<!-- <hr>
+  <!-- <hr>
 <footer>powered by myself, caffiene, and
     <a href="https://justfuckingusehtml.com/">pure mf'n HTML&#8482</a>
   </footer>
 -->
 
-<script src="scripts/webgl.js"></script>
-<script src="scripts/libs.js"></script>
+  <script src="scripts/webgl.js"></script>
+  <script src="scripts/libs.js"></script>
+  <script src="scripts/aimbot.js"></script>
+  <script src="scripts/typewriter.js"></script>
 </body>
 
 </html>
